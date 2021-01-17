@@ -1,24 +1,31 @@
-import logo from './logo.svg';
 import './App.css';
+import Home from './home';
+import Navbar from './navbar';
+import Lobby from './lobby';
+import ChatRoom from './chat-room';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import 'materialize-css/dist/css/materialize.min.css';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <BrowserRouter>
+      <div className="App">
+        <Navbar />
+        <div className="container">
+          <Switch>
+            <Route path="/" exact>
+              <Home />
+            </Route>
+            <Route path="/lobby">
+              <Lobby />
+            </Route>
+            <Route path="/chat-room">
+              <ChatRoom />
+            </Route>
+          </Switch>
+        </div>
+      </div>
+    </BrowserRouter>
   );
 }
 
