@@ -1,4 +1,15 @@
+import React, { useContext } from 'react';
+import { useHistory } from 'react-router-dom';
+import { AuthContext } from './contexts/AuthContext';
+
 const Home = () => {
+  const history = useHistory();
+  const { login } = useContext(AuthContext);
+  const handleNickname = (evt) => {
+    evt.preventDefault();
+    login(evt.target['temp-nickname'].value);
+    history.push('/lobby')
+  }
   return (
     <div className="col">
       <form className="row s8">
@@ -27,12 +38,12 @@ const Home = () => {
         </div>
         <button className="btn waves-effect waves-light blue-grey" type="submit" name="action">Submit</button>
       </form>
-      <form className="row s8">
+      <form className="row s8" onSubmit={handleNickname}>
         <h4>Enter the chat with temporaly nickname</h4>
         <div className="row">
           <div className="input-field col s6">
             <input id="temp-nickname" type="text" className="validate" />
-            <label htmlFor="temp-nickname">Nickname</label>
+            <label htmlFor="temp-nickname"></label>
           </div>
         </div>
         <button className="btn waves-effect waves-light blue-grey" type="submit" name="action">Submit</button>
