@@ -1,27 +1,28 @@
 import React, { createContext, useState } from 'react';
 
 export const AuthContext = createContext();
-const initialState = { nickname: 'anonymous',
-   isCreator: false ,
-   roomname: '' }
-;
-const AuthContextProvider = (props) => {
-  const [auth, setAuth] = useState(initialState);
 
-  const login = (name) => {
-    const {isCreator, roomname } = auth;
-    setAuth({ nickname: name, isCreator, roomname });
+const AuthContextProvider = (props) => {
+  const [isLogged, setIsLogged] = useState(false);
+  const [roomName, setRoomName] = useState(null);
+  const [loginBtn, setLoginBtn] = useState(false);
+
+  const loginBtnHandler = () => {
+    setLoginBtn(!loginBtn);
+  }
+
+  const login = () => {
+    setIsLogged(true);
   };
   const logout = () => {
-    setAuth(initialState);
+    setIsLogged(false);
   };
 
-  const setRoom = (name) => {
-    const {isCreator, nickname } = auth;
-    setAuth({roomname: name, isCreator, nickname});
+  const room = (name) => {
+    setRoomName(name);
   };
   return (
-    <AuthContext.Provider value={{ auth, login, logout, setRoom }}>
+    <AuthContext.Provider value={{ isLogged, roomName, loginBtn, login, logout, room, loginBtnHandler }}>
       {props.children}
     </AuthContext.Provider>
   );
