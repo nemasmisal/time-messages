@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { AuthContext } from './contexts/AuthContext';
-import { wscActions, registerOnMsgCB } from './websocket';
-const ChatRoom = () => {
+import { AuthContext } from '../contexts/AuthContext';
+import { wscActions, registerOnMsgCB } from '../websocket';
+
+export const ChatRoom = () => {
   const { auth } = useContext(AuthContext);
   const [msg, setMsg] = useState([{ msg: Date(), username: 'Conversation starts at', time: null }]);
 
@@ -63,5 +64,3 @@ const ChatRoom = () => {
     </div>
   );
 };
-
-export default ChatRoom;

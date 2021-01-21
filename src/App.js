@@ -1,35 +1,22 @@
+import { Route, Switch } from 'react-router-dom';
 import './App.css';
-import Home from './home';
-import Navbar from './navbar';
-import Lobby from './lobby';
-import ChatRoom from './chat-room';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import 'materialize-css/dist/css/materialize.min.css';
-import AuthContextProvide from './contexts/AuthContext';
+import { Home, ChatRoom, Lobby } from './pages';
+import Navbar from './shared/navbar';
 
-function App() {
+const App = () => {
   return (
-    <BrowserRouter>
-        <AuthContextProvide>
-      <div className="App">
-          <Navbar />
-        <div className="container">
-          <Switch>
-            <Route path="/" exact>
-                <Home />
-            </Route>
-            <Route path="/lobby">
-              <Lobby />
-            </Route>
-            <Route path="/chat-room">
-                <ChatRoom />
-            </Route>
-          </Switch>
-        </div>
+    <div className="App">
+      <Navbar />
+      <div className="container">
+        <Switch>
+          <Route path="/lobby" component={Lobby} />
+          <Route path="/chat-room" component={ChatRoom} />
+          <Route path="/" component={Home} />
+        </Switch>
       </div>
-      </AuthContextProvide>
-    </BrowserRouter>
+    </div>
   );
-}
+};
 
 export default App;

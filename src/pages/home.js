@@ -1,8 +1,8 @@
 import React, { useContext } from 'react';
 import { useHistory } from 'react-router-dom';
-import { AuthContext } from './contexts/AuthContext';
+import { AuthContext } from '../contexts/AuthContext';
 
-const Home = () => {
+export const Home = () => {
   const history = useHistory();
   const { login } = useContext(AuthContext);
   const handleNickname = (evt) => {
@@ -10,13 +10,18 @@ const Home = () => {
     login(evt.target['temp-nickname'].value);
     history.push('/lobby')
   }
+
+  const handleChange = (evt) => {
+    console.log(evt.target.value)
+  }
+
   return (
     <div className="col">
       <form className="row s8">
         <h4>Register your permanent nickname</h4>
         <div className="row">
           <div className="input-field col s6">
-            <input id="nickname" type="text" className="validate" />
+            <input id="nickname" type="text" className="validate" onChange={handleChange}/>
             <label htmlFor="nickname">Nickname</label>
           </div>
           <div className="input-field col s6">
@@ -51,5 +56,3 @@ const Home = () => {
     </div>
   );
 };
-
-export default Home;

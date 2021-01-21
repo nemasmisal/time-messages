@@ -1,9 +1,9 @@
 import React, { useContext ,useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { AuthContext } from './contexts/AuthContext';
-import { startWSC } from './websocket';
+import { AuthContext } from '../contexts/AuthContext';
+import { startWSC } from '../websocket';
 
-const Lobby = () => {
+export const Lobby = () => {
   const { setRoom } = useContext(AuthContext);
   
   useEffect(() => {
@@ -29,5 +29,3 @@ const Lobby = () => {
   </div>
    );
 }
- 
-export default Lobby;
