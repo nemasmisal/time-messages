@@ -1,19 +1,19 @@
 import React, { useState, useEffect, useContext } from 'react';
+import { Link } from 'react-router-dom';
 import { AuthContext } from '../contexts/AuthContext';
 import { wscActions, registerOnMsgCB } from '../websocket';
 
 export const ChatRoom = () => {
-  const { auth } = useContext(AuthContext);
+  const { username, roomname } = useContext(AuthContext);
   const [msg, setMsg] = useState([{ msg: Date(), username: 'Conversation starts at', time: null }]);
 
   const sendMsg = (evt) => {
     evt.preventDefault();
     const inputMsg = evt.target.message.value;
-    const {roomname, nickname } = auth;
     wscActions.send(
       JSON.stringify({
         action: 'onmsg',
-        payload: { username: nickname, msg: inputMsg, roomname },
+        payload: { username, msg: inputMsg, roomname },
       })
     );
     evt.target.message.value = '';
@@ -25,6 +25,15 @@ export const ChatRoom = () => {
     setMsg([...msg, message]);
   };
 
+  const leaveRoom = () => {
+    wscActions.send(
+      JSON.stringify({
+        action: 'onleave',
+        payload: { username, roomname, msg:'has left the room'}
+      })
+    );
+  }
+
   registerOnMsgCB(recieveMsg);
   
   useEffect(() => {
@@ -32,11 +41,11 @@ export const ChatRoom = () => {
       wscActions.send(
         JSON.stringify({
           action: 'onjoin',
-          payload: { username: auth.nickname, msg: 'has join the room', roomname: auth.roomname }
+          payload: { username , msg: 'has join the room', roomname }
         })
       )
     }
-  }, [auth]);
+  }, []);
 
   useEffect(() => {}, [msg])
 
@@ -60,7 +69,7 @@ export const ChatRoom = () => {
         />
         <button type="submit">SEND</button>
       </form>
-      <button className="leaveBtn">Leave</button>
+      <button className="leaveBtn" onClick={leaveRoom}><Link to="/lobby">Leave</Link></button>
     </div>
   );
 };

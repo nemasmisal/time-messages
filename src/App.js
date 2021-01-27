@@ -2,7 +2,7 @@ import { Route, Switch } from 'react-router-dom';
 import './App.css';
 import 'materialize-css/dist/css/materialize.min.css';
 import { Home, ChatRoom, Lobby } from './pages';
-import Navbar from './shared/navbar';
+import Navbar from './components/navbar';
 
 const App = () => {
   return (

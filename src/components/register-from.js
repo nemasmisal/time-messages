@@ -1,24 +1,32 @@
-import React, { useState } from 'react';
-import FetchData from '../services/fetch';
-
-
-
+import { useContext, useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
+import { AuthContext } from '../contexts/AuthContext';
+import authService from '../services/auth-service';
 
 const RegisterForm = () => {
-  
+  const history = useHistory();
+  const { login } = useContext(AuthContext);
   const [nickname, setNickname] = useState();
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
-  const [repeatPassword, setRepeatPassword] = useState();
   const [isPending, setIsPending] = useState(false);
+  const [body, setBody] = useState(null);
   
-  const handleSubmit = async (evt) => {
+  useEffect(() => {
+    const fetchData = async () => {
+        const res = await authService.register(body);
+        if(res.msg) { return; }
+        login(nickname, res.id);
+        setIsPending(false);
+        history.push('/lobby');
+    };
+    if(body) { fetchData(); }
+  }, [body])
+
+  const handleSubmit = (evt) => {
     evt.preventDefault();
     setIsPending(true);
-    const body = { nickname, email, password }
-    const response = await FetchData('http', 'POST' , body);
-    console.log(response);
-    setIsPending(false);
+    setBody({ username: nickname, email, password });
   };
 
   return (
@@ -72,7 +80,6 @@ const RegisterForm = () => {
             type="password"
             required
             className="validate"
-            onChange={(evt) => setRepeatPassword(evt.target.value)}
           />
           <label htmlFor="repeatPassword"></label>
         </div>

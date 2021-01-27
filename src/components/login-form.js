@@ -1,48 +1,69 @@
-import { useState, useContext } from 'react';
+import { useState, useContext, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { AuthContext } from '../contexts/AuthContext';
+import authService from '../services/auth-service';
 
 
 const LoginForm = () => {
   const { login } = useContext(AuthContext);
   const history = useHistory();
-  const { loginBtn } = useContext(AuthContext);
-  const [nickname, setNickname] = useState(null);
-  const [password, setPassword] = useState(null)
+  const { toggleLoginForm } = useContext(AuthContext);
+  const [loginName, setLoginName] = useState(null);
+  const [password, setPassword] = useState(null);
+  const [body, setBody] = useState(null);
+  const [isPending, setIsPending] = useState(false);
+
+  useEffect(() => {
+    async function fecthData() {
+      const res = await authService.login(body);
+      if(res.msg) { return; }
+      login(loginName, res.id);
+      setIsPending(false);
+      history.push('/lobby')
+    }
+    if(body) { fecthData(); }
+  }, [body])
   
   const handleNickname = (evt) => {
     evt.preventDefault();
-    login();
-    history.push('/lobby');
+    setIsPending(true);
+    if(!password) {
+      login(loginName, null);
+      history.push('/lobby');
+      return;
+    }
+    setBody({ email: loginName, password })
   }
+
   return ( 
     <form className="row s8" onSubmit={handleNickname}>
-        {!loginBtn && <h4>Enter the chat with temporary nickname</h4>}
-        {loginBtn && <h4>Please provide your nickname and password</h4>}
+        {!toggleLoginForm && <h4>Enter the chat with temporary nickname</h4>}
+        {toggleLoginForm && <h4>Please provide your email and password</h4>}
         <div className="row">
           <div className="input-field col s6">
-            <input id="nickname"
+            <input id="loginname"
              type="text"
              required
              className="validate"
-             onChange={(evt) => setNickname(evt.target.value)}/>
-            <label htmlFor="nickname"></label>
+             onChange={(evt) => setLoginName(evt.target.value)}/>
+            <label htmlFor="loginname"></label>
           </div>
         </div>
         <div className="row">
-        {loginBtn && <div className="input-field col s12">
+        {toggleLoginForm && <div className="input-field col s12">
           <input
-            id="password"
+            id="login-password"
             placeholder="password"
             type="password"
             required
             className="validate"
             onChange={(evt) => setPassword(evt.target.value)}
           />
-          <label htmlFor="password"></label>
+          <label htmlFor="login-password"></label>
         </div>}
       </div>
-        <button className="btn waves-effect waves-light blue-grey" type="submit" name="action">Submit</button>
+      {isPending && <button disable="true" className="btn waves-effect waves-light blue-grey" type="submit" name="action">Submiting..</button>}
+      {!isPending && <button className="btn waves-effect waves-light blue-grey" type="submit" name="action">Submit</button>}
       </form>
    );
 }
