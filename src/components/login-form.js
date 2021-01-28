@@ -17,7 +17,7 @@ const LoginForm = () => {
     async function fecthData() {
       const res = await authService.login(body);
       if(res.msg) { return; }
-      login(loginName, res.id);
+      login(res.username, res.id);
       setIsPending(false);
       history.push('/lobby')
     }
