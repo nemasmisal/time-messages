@@ -21,7 +21,7 @@ const RegisterForm = () => {
         history.push('/lobby');
     };
     if(body) { fetchData(); }
-  }, [body])
+  }, [body, login, history, nickname])
 
   const handleSubmit = (evt) => {
     evt.preventDefault();
