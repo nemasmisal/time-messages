@@ -60,7 +60,7 @@ const RegisterForm = () => {
         </div>
       </div>
       <div className="row">
-        <div className="input-field col s12">
+        <div className="input-field col s6">
           <input
             id="password"
             placeholder="password"
@@ -71,9 +71,7 @@ const RegisterForm = () => {
           />
           <label htmlFor="password"></label>
         </div>
-      </div>
-      <div className="row">
-        <div className="input-field col s12">
+        <div className="input-field col s6">
           <input
             id="repeatPassword"
             placeholder="repeat password"

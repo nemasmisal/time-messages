@@ -7,7 +7,7 @@ const RoomContextProvider = (props) => {
   const [currentRoom, setCurrentRoom] = useState(null);
 
   const setRooms = (allRooms) => {
-    setAllRooms([...rooms,...allRooms]);
+    setAllRooms([...allRooms]);
   }
 
   const getRoom = (name) => {

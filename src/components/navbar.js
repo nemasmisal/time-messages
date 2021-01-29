@@ -2,6 +2,7 @@ import { Link, useHistory } from 'react-router-dom';
 import { useContext } from 'react';
 import { AuthContext } from '../contexts/AuthContext';
 import authService from '../services/auth-service';
+import styles from './navbar.module.css';
 
 const Navbar = () => {
   const { toggleLogin, toggleLoginForm, userId, username, logout } = useContext(AuthContext);
@@ -11,21 +12,27 @@ const Navbar = () => {
     toggleLogin()
   }
   const logoutHandler = async () => {
-    await authService.logout();
+    if(userId) {
+      await authService.logout();
+    }
     logout();
     history.push('/');
   }
   return ( 
-    <nav>
-       <div className="nav-wrapper blue-grey">
-         <Link to="/" className="brand-logo"> Text-Messages</Link>
-           {username && <p className="right">{username}</p>}
-           {userId && <button className="waves-effect waves-light btn-small right" onClick={logoutHandler}>Log Out</button>}
+    <nav className={styles.nav}>
+       <div className={styles.wrapper}>
+         <h1>
+         <Link to="/">T-M</Link>
+         </h1>
+           {username && <h4>{username}</h4>}
+           <div className={styles.btn}>
+           {username && <button className="waves-effect waves-light btn" onClick={logoutHandler}>Log Out</button>}
+           </div>
            {!username && 
-         <ul id="nav-mobile" className="right hide-on-med-and-down">
-           {!toggleLoginForm && <li onClick={btnHandler}><Link to="" className="waves-effect waves-light btn-small">Use your nickname</Link></li>}
-           {toggleLoginForm && <li onClick={btnHandler}><Link to="" className="waves-effect waves-light btn-small">Use Temporary nickname</Link></li>}
-         </ul> }
+         <div className={styles.btn}>
+           {!toggleLoginForm && <button onClick={btnHandler} className="waves-effect waves-light btn">Use your nickname</button>}
+           {toggleLoginForm && <button onClick={btnHandler} className="waves-effect waves-light btn">Use Temporary nickname</button>}
+         </div> }
        </div>
      </nav>
    );

@@ -28,7 +28,8 @@ const LoginForm = () => {
     evt.preventDefault();
     setIsPending(true);
     if(!password) {
-      login(loginName, null);
+      const tempNickname = loginName + Date.now();
+      login(tempNickname, null);
       history.push('/lobby');
       return;
     }
@@ -42,15 +43,14 @@ const LoginForm = () => {
         <div className="row">
           <div className="input-field col s6">
             <input id="loginname"
+            placeholder="email/nickname"
              type="text"
              required
              className="validate"
              onChange={(evt) => setLoginName(evt.target.value)}/>
             <label htmlFor="loginname"></label>
           </div>
-        </div>
-        <div className="row">
-        {toggleLoginForm && <div className="input-field col s12">
+          {toggleLoginForm && <div className="input-field col s6">
           <input
             id="login-password"
             placeholder="password"
@@ -61,7 +61,7 @@ const LoginForm = () => {
           />
           <label htmlFor="login-password"></label>
         </div>}
-      </div>
+        </div>
       {isPending && <button disable="true" className="btn waves-effect waves-light blue-grey" type="submit" name="action">Submiting..</button>}
       {!isPending && <button className="btn waves-effect waves-light blue-grey" type="submit" name="action">Submit</button>}
       </form>

@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Link } from 'react-router-dom';
-import { AuthContext } from '../contexts/AuthContext';
 import { wscActions, registerOnMsgCB } from '../websocket';
-import roomService from '../services/room-service';
+import { AuthContext } from '../contexts/AuthContext';
 import { RoomContext } from '../contexts/RoomContext';
+import roomService from '../services/room-service';
 
 export const ChatRoom = () => {
   const { username } = useContext(AuthContext);
