@@ -74,9 +74,9 @@ export const ChatRoom = () => {
           placeholder="Type your message..."
           id="message"
         />
-        <button type="submit">SEND</button>
+        <button type="submit" className="waves-effect waves-light btn">SEND</button>
+      <Link to="/lobby" className="waves-effect waves-light btn right" onClick={leaveRoom}>Leave</Link>
       </form>
-      <button className="leaveBtn" onClick={leaveRoom}><Link to="/lobby">Leave</Link></button>
     </div>
   );
 };
